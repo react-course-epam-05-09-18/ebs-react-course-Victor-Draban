@@ -1,14 +1,20 @@
 import React, { Component } from "react";
-import CourseItem from "./item/CourseItem";
 import { Link } from "react-router-dom";
-import "./Courses.css"
 import { Button } from "react-bootstrap";
+
+//component
+import CourseItem from "./item/CourseItem";
+
+//styles
+import "./Courses.css";
+
 
 export default class Courses extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      userName : null,
       videocourses: [
         {
           title:"Видеокурс 1",
@@ -16,13 +22,14 @@ export default class Courses extends Component {
           duration:"76", 
           listOfAuthors:"author1 authorEast authorSouth"
         }
-        // ,
-        // {
-        //   title:"Header from ...",
-        //   createDate:"yes yes",
-        //   duration:"77", 
-        //   listOfAuthors:"author1 authorEast"
-        // },
+        ,
+        {
+          title:"Header from ...",
+          createDate:"yes yes",
+          duration:"77", 
+          listOfAuthors:"author1 authorEast"
+        }
+        ,
         // {
         //   title:"Header ...",
         //   createDate:"yes",
@@ -50,6 +57,13 @@ export default class Courses extends Component {
     this.setState( { videocourses : arr } )
   }
 
+  logout = event => {
+    event.preventDefault();
+    this.props.history.push('/login');
+    localStorage.setItem('loginName', "log out");
+    localStorage.setItem('authmock', false);
+  }
+
   eachItem(item, i) {
     return <CourseItem key={i}
               title={item.title}
@@ -59,9 +73,18 @@ export default class Courses extends Component {
             />
   }
 
+  componentWillMount() {
+    let tmp = localStorage.getItem("loginName");
+    this.setState( { "userName" : tmp });
+  }
+
   render() {
     return (
       <div className="Courses">
+        { this.state.userName }
+        <Button onClick={this.logout.bind(this)}>
+          logout
+        </Button>
         <div className="lander">
           <Button onClick={this.createMy.bind(this)}>
             Create New

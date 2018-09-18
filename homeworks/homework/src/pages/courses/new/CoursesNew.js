@@ -6,8 +6,8 @@ export default class CoursesNew extends Component {
 
   render() {
     return (
-      <div className="CoursesNew">
-        <Form horizontal>
+      // <div className="CoursesNew">
+        /*{ <Form horizontal>
             <FormGroup bsSize="large">
               <Col sm={2} componentClass={ControlLabel}>
                 Название
@@ -82,12 +82,26 @@ export default class CoursesNew extends Component {
               <Col sm={2}>
                 <Button 
                   type="button"
-                  >Удалить
+                  >Отмена
                 </Button>
               </Col>
             </FormGroup>
-          </Form>
-      </div>
+          </Form> }*/
+          <div className="complexDiv">
+            <div className="leftDiv">
+              <p>1232</p>
+              <p>2</p>
+              <p>3</p>
+            </div>
+            <div className="middleDiv">
+              <span> > </span>
+              <span> > </span>
+            </div>
+            <div className="rightDiv">
+              <p>4</p>
+            </div>
+          </div>
+      // </div>
     );
   }
 }

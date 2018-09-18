@@ -1,0 +1,24 @@
+.complexDiv {
+  display: flex;
+  align-items: stretch;
+}
+
+.leftDiv {
+  width: 50%;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.middleDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+}
+
+.rightDiv {
+  width: 50%;
+  border: 1px solid black;
+  padding: 10px;
+}

@@ -1,0 +1,30 @@
+input[type=text], input[type='password'] {
+    width: 20%;
+    border: 2px solid #aaaaaa;
+    border-radius: 4px;
+    margin: 8px 0;
+    padding: 8px;
+    outline: none;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+input[type=text]:focus, input[type='password']:focus {
+    border-color: dodgerblue;
+    box-shadow: 0 0 8px dodgerblue;
+}
+
+input[type=submit] {
+    padding:5px 15px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+}
+
+label {
+    width: 5%;
+    text-align: left;
+    margin: 5px 5px;
+}
