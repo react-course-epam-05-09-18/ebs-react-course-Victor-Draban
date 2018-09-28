@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
 //pages
-import Login from "../pages/login/Login";
+import { Login } from "../pages/login/Login";
 
 //route
 import EnsureLoggedInContainer from "./RouteAuth";

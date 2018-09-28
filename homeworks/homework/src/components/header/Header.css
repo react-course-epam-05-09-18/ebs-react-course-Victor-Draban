@@ -13,3 +13,20 @@
 .label-logo {
     text-align: center;
 }
+
+.log-out-block {
+    position: absolute;
+    top: 5%;
+    right: 15%;
+}
+
+.log-out-block label {
+    width: 250px;
+    display: block;
+}
+
+.log-out-block a {
+    width: 10%;
+    display: block;
+    padding-left: 5px;
+}

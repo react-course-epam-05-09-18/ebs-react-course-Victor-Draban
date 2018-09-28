@@ -1,85 +1,58 @@
-import React, { Component } from "react";
-import { withRouter } from 'react-router-dom';
-import "./Login.css";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { saveLogin } from '../../reducers/actionTypes';
 
 // components
 import InputField from "../../components/input-field/InputField";
 
+//styles
+import "./Login.css";
 
-class Login extends Component {
+class LoginPage extends Component {
     constructor(props) {
       super(props);
   
       this.state = {
-        dateInput: {
-          inputLogin: '',
-          inputPassword: ''
-        }
+        loginState : false,
+        passwordState : false,
+        error : null
       };
     }
-  
-    // validateForm() {
-    //   return this.validateLogin() && this.validatePassword();
-    // }
 
-    // validateLogin() {
-    //   let pattern = /^[a-z]+$/gi;
-    //   let result = false;
-    //   if (pattern.test(this.state.login)) {
-    //     this.state.loginState = ''
-    //     result = true;
-    //   } else {
-    //     this.state.loginState = 'error'
-    //   }
-    //   return result;
-    // }
-
-    // validatePassword() {
-    //   let reg = /\w+/g;
-    //   let result = false;
-    //   if (reg.test(this.state.password)) {
-    //     this.state.passwordState = "";
-    //     result = true;
-    //   } else {
-    //     this.state.passwordState = "error";
-    //   }
-    //   return result;
-    // }
-  
-    // handleChange = event => {
-    //   this.setState({
-    //     [event.target.id]: event.target.value
-    //   });
-    // }
     handleChange = (returnName, returnValue) => {
       this.setState({
-        dateInput: {
-          ...this.state.dateInput,
-          [returnName] : returnValue
-        }
+        [returnName] : returnValue
       })
-      console.log(this.state.dateInput);
     }
   
-    handleSubmit = event => {
+    handleSubmit = (event) => {
       event.preventDefault();
-      this.props.history.push('/courses');
-      localStorage.setItem('loginName', this.state.dateInput.inputLogin);
-      localStorage.setItem('authmock', true);
+      if (this.state.loginState && this.state.passwordState) {
+        this.props.saveLogin(this.state.loginState);
+        this.props.history.push('/courses');
+      } else {
+        this.setState( {error : true} )
+      }
     }
 
     render() {
       return (
-          <div>
-            <form onSubmit={this.handleSubmit}>
-                <InputField inputType="text" labelValue="Логин" name="inputLogin" regExp="^[a-z]+$" valFunc={ this.handleChange } />
-                <InputField inputType="password" labelValue="Пароль" name="inputPassword" regExp="^\w+$" valFunc={ this.handleChange }/>         
-                <input type="submit" value="Войти" />
+          <div className='login-form'>
+              { this.state.error ? (
+                <div style={{background : 'darkcyan'}}>Не верно введен логин или пароль</div>
+              ) : null }
+              <form onSubmit={this.handleSubmit}>
+                  <InputField inputType="text" labelValue="Логин" name="loginState" regExp="^[a-zA-Z]+$" valFunc={ this.handleChange } />
+                  <InputField inputType="password" labelValue="Пароль" name="passwordState" regExp="^\w+$" valFunc={ this.handleChange }/>         
+                  <input type="submit" value="Войти" />
               </form>
           </div>
       );
     }
-  }
+}
 
-// export default withRouter(Login);
-export default Login;
+const mapDispatchToProps = {
+  saveLogin
+}
+
+export const Login = connect(null, mapDispatchToProps)(LoginPage);

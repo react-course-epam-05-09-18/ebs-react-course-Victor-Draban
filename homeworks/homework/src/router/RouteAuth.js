@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
+import { connect } from 'react-redux';
 
 //pages
 import PageNotFound from "../pages/page_not_found/PageNotFound";
@@ -13,14 +14,14 @@ import { LOGIN, COURSES_ALL } from "../constants/PathConstants";
 
 class EnsureLoggedInContainer extends Component {
         componentDidMount() {
-            let tmp = localStorage.getItem("loginName");
-            if (tmp === '') {
+            // let tmp = localStorage.getItem("loginName");
+            if (this.props.loginName === '') {
                 this.props.history.push( { LOGIN } );
             }
         }
     
         render() {
-            if (localStorage.getItem("authmock") === "true") {
+            if (this.props.loginName !== "") {
                 return <Switch>
                             <Route path = { COURSES_ALL } component = { RouteCourses } />
                             <Route component = { PageNotFound } />
@@ -30,5 +31,11 @@ class EnsureLoggedInContainer extends Component {
             }
         }
     }
+
+    const mapGlobalStoreStateToProps = (globalStore) => {
+        return {
+            loginName : globalStore.loginReducer.login
+        }
+    }
     
-    export default withRouter(EnsureLoggedInContainer);
+    export default withRouter(connect(mapGlobalStoreStateToProps)(EnsureLoggedInContainer));

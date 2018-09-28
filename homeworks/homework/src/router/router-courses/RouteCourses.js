@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 
 //pages
-import Courses from "../../pages/courses/Courses";
-import CoursesNew from "../../pages/courses/new/CoursesNew";
+import { Courses } from "../../pages/courses/Courses";
+import { CoursesNew } from "../../pages/courses/new/CoursesNew";
 
 import { COURSES_ALL } from "../../constants/PathConstants";
 

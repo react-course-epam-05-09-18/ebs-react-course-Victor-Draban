@@ -1,9 +1,9 @@
 :local(.footer) {
-    position: absolute;
+    position: fixed;
+    background-color: #efefef;
+    height: 70px;
+    width: 95%;
     bottom: 0;
-    width: 100%;
-    height: 60px;
-    background: lavender;
 }
 
 :local(.copyright) {
