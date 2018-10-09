@@ -1,28 +1,32 @@
 const initialState = {
         videocourses: [
                 {
-                        title:"Видеокурс 1",
-                        createDate:"yes yes yes",
+                        title:"Видеокурс1",
+                        description: "asdfadsf23411",
+                        createDate: '21.09.2013',
                         duration: 76, 
-                        listOfAuthors:"author1 authorEast authorSouth",
+                        listOfAuthors: ['Иванов', 'Азонов'],
                 },
                 {
-                        title:"Header from ...",
-                        createDate:"yes yes",
+                        title:"Headerfrom",
+                        description: "poinwerkqjwe",
+                        createDate: '19.02.2017',
                         duration: 77, 
-                        listOfAuthors:"author1 authorEast",
+                        listOfAuthors: ['Азонов', 'Кин'],
                 },
                 {
-                        title:"Header ...",
-                        createDate:"yes",
+                        title:"Header",
+                        description: "mbmbnbnb,zm",
+                        createDate: '28.05.2018',
                         duration: 78, 
-                        listOfAuthors:"author1",
+                        listOfAuthors: ['Сидоров'],
                 },
                 {
-                        title:"...",
-                        createDate:"...",
+                        title:"NewTitle",
+                        description: "asdfadsf2341asdfasdf;lkkok1",
+                        createDate: '28.05.2018',
                         duration: 99, 
-                        listOfAuthors:"...",
+                        listOfAuthors: ['Иванов', 'Петров', 'Сидоров'],
                 }
         ]
 }
@@ -33,7 +37,7 @@ export const reducerCourses = (state = initialState, action) => {
                         console.log('CREATE_NEW_COURSE');
                         return {
                                 ...state,
-                                videocourses: state.videocourses.concat(action.payload)
+                                videocourses: [...state.videocourses, action.payload]
                         }
                 }
                 case 'DELETE_COURSE' : {
@@ -41,6 +45,13 @@ export const reducerCourses = (state = initialState, action) => {
                         return {
                                 ...state,
                                 videocourses : state.videocourses.filter(item => item !== state.videocourses[action.payload])
+                        }
+                }
+                case 'UPDATE_COURSE' : {
+                        console.log('UPDATE_COURSE');
+                        state.videocourses[action.payload.id] = action.payload.content;
+                        return {
+                                ...state,
                         }
                 }
                 default: {

@@ -1,62 +1,168 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
-import { createCourse } from '../../../reducers/actionTypes';
+import { createSelector } from 'reselect';
+import { COURSES_ALL } from '../../../constants/PathConstants';
+import { createCourse, updateCourse } from '../../../reducers/actionTypes';
+
+//components
+import { InputWithLeftLabel } from '../../../components/input-text-with-left-label/InputWithLeftLabel';
+import { InputTextareaWithLeftLabel } from '../../../components/input-textarea-with-left-label/InputTextareaWithLeftLable';
+import { InputWithLables } from '../../../components/input-text-with-labels/InputWithLables';
+import { LinkedTables } from '../../../components/linked-tables/LinkedTables';
 
 //styles
 import "./CoursesNew.css";
 
+
 class CoursesNewPage extends Component {
+
+        state = {
+                leftAuthorForm: [],
+                rightAuthorForm: [],
+                course: {}
+        }
+
+        componentWillMount() {
+                const id = this.props.match.params.id;
+                if (this.props.courses[id] === undefined && id !== 'new') {
+                        this.props.history.push(`${COURSES_ALL}`)
+                }
+                if (this.props.courses[id] != undefined) {
+                        this.setState({
+                                course: this.props.courses[id],
+                                leftAuthorForm: this.props.authors.filter(item => {
+                                        return this.props.courses[id].listOfAuthors.indexOf(item) < 0;
+                                }),
+                                rightAuthorForm: this.props.courses[id].listOfAuthors
+                        })  
+                } else {
+                        this.setState({
+                                course: {},
+                                leftAuthorForm: this.props.authors
+                        })
+                }
+        }
+
+        getError = (value, regExpression) => {
+                let regExp = new RegExp(regExpression);
+                return regExp.test(value);
+        }
+        
+        handleChange = (returnName, returnValue) => {
+                this.setState(prevState => ({
+                        course: {
+                                ...prevState.course,
+                                [returnName] : returnValue
+                        }
+
+                }));
+        }
 
         handleSubmit = (event) => {
                 event.preventDefault();
-                this.props.history.push('/courses');
+                
+                if (this.state.course !== undefined
+                        && this.getError(this.state.course.title, /^[A-Za-zА-Яа-я 0-9]+$/) 
+                        && this.getError(this.state.course.createDate, /^\d{1,2}\.{1}\d{1,2}\.{1}\d{4}$/)
+                        && this.getError(this.state.course.duration, /^\d+$/)) {
+
+                        if (this.props.match.params.id === 'new') {
+                                this.props.createCourse({
+                                        title: this.state.course.title,
+                                        description: this.state.course.description,
+                                        createDate: this.state.course.createDate,
+                                        duration: +this.state.course.duration, 
+                                        listOfAuthors: this.state.rightAuthorForm
+                                })
+                        } else {
+                                this.props.updateCourse({
+                                       id: this.props.match.params.id,
+                                       content: {
+                                                title: this.state.course.title,
+                                                description: this.state.course.description,
+                                                createDate: this.state.course.createDate,
+                                                duration: +this.state.course.duration, 
+                                                listOfAuthors: this.state.rightAuthorForm
+                                        } 
+                                })
+                        }
+                        this.props.history.push(`${COURSES_ALL}`);
+                } else {
+                        alert('error message');
+                }
+
+        }
+
+        eachAuthor = (item, i) => {
+                return <option key={i}>{item}</option>;
+        }
+
+        leftHandler = (returnValue) => {
+                const selectedAuthors = Array.from(returnValue).map(o => o.value);
+                this.setState({
+                        leftAuthorForm: this.state.leftAuthorForm.concat(selectedAuthors),
+                        rightAuthorForm:this.state.rightAuthorForm.filter(item => {
+                                return selectedAuthors.indexOf(item) < 0;
+                        })
+                })
+        }
+
+        rightHandler = (returnValue) => {
+                const selectedAuthors = Array.from(returnValue).map(o => o.value);
+                this.setState({
+                        leftAuthorForm: this.state.leftAuthorForm.filter(item => {
+                                return selectedAuthors.indexOf(item) < 0;
+                        }),
+                        rightAuthorForm: this.state.rightAuthorForm.concat(selectedAuthors)
+                })
         }
 
         render() {
+                const {
+                        authors     
+                } = this.props;
+
+                const {
+                        leftAuthorForm,
+                        rightAuthorForm,
+                        course
+                } = this.state;
+                
+                const items = testSelector(this.state);
+                
                 return (
                         <form onSubmit={this.handleSubmit}>
-                                <div className='equalHMVWrap'>
-                                        <label className='equalHMV'> Название </label>
-                                        <input className='equalHMV' type='text' placeholder='Text input'></input>
-                                </div>
-                                <div className='equalHMVWrap'>
-                                        <label className='equalHMV'> Описание </label>
-                                        <textarea className='equalHMV' placeholder="Text area"></textarea>
-                                </div>
-                                <div className='equalHMVWrap'>
-                                        <label className='equalHMV'> Дата </label>
-                                        <input className='equalHMV' type='text' placeholder="5.12.2014"></input>
-                                </div>
-                                <div className='equalHMVWrap'>
-                                        <label className='equalHMV'> Продолжительность </label>
-                                        <input className='equalHMV' type='text' placeholder="183"></input>
-                                        <label className='equalHMV'> 3 часа 3 минуты </label>
-                                </div>
-
-                                <div className="complexDiv">
-                                        <div className="leftDiv">
-                                                <p>1232</p>
-                                                <p>2</p>
-                                                <p>3</p>
-                                        </div>
-                                        <div className="middleDiv">
-                                                <span> > </span>
-                                                <span> > </span>
-                                        </div>
-                                        <div className="rightDiv">
-                                                <p>4</p>
-                                        </div>
-                                </div>
+                                <InputWithLeftLabel name='title' leftLabelText='Название' val={(course && course.title)} customPlaceholder='Text input' returnFunc={this.handleChange}/>
+                                <InputTextareaWithLeftLabel name='description' leftLabelText='Описание' val={(course && course.description)} customPlaceholder='Text area' returnFunc={this.handleChange}/>
+                                <InputWithLeftLabel name='createDate' leftLabelText='Дата' val={(course && course.createDate)} customPlaceholder='5.12.2014' returnFunc={this.handleChange}/>
+                                <InputWithLables name='duration' leftLabelText='Продолжительность' val={(course && course.duration)} rightLabelText='3 часа 3 минуты' customPlaceholder='183' returnFunc={this.handleChange}/>
+                                <LinkedTables authors={authors} leftTable={leftAuthorForm} leftHandler={this.leftHandler}
+                                                                rightTable={rightAuthorForm} rightHandler={this.rightHandler}
+                                                                eachAuthorFunc={this.eachAuthor}/>
                                 <input type="submit" value="Сохранить" />
-                                <Link to="/courses" className='link-to'> Отменить </Link>
+                                <Link to={ COURSES_ALL } className='link-to'> Отменить </Link>
                         </form>
                 );
         }
 }
 
-const mapDispatchToProps = {
-        createCourse
+const mapGlobalStoreStateToProps = (globalStore) => {
+        return {
+                authors : globalStore.authorReducer.autors,
+                courses: globalStore.reducerCourses.videocourses
+        }
 }
 
-export const CoursesNew = connect(null, mapDispatchToProps)(CoursesNewPage);
+const mapDispatchToProps = {
+        createCourse,
+        updateCourse
+}
+
+export const CoursesNew = connect(mapGlobalStoreStateToProps, mapDispatchToProps)(CoursesNewPage);
+
+const testSelector = createSelector(
+        (state) => state.leftAuthorForm,
+        (state) => state.rightAuthorForm,
+        (leftAuthorForm, rightAuthorForm) => this.leftHandler
+)

@@ -1,0 +1,12 @@
+.equalHMVWrap {
+        flex-wrap: wrap;
+        display: flex;
+}
+
+.equalHMV {
+        width: 32%;
+}
+
+.textAlighCenter {
+        text-align: center;
+}

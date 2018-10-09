@@ -6,6 +6,10 @@ import "./CourseItem.css";
 
 class CourseItem extends Component {
 
+        handleUpdate = () => {
+                this.props.editFunc(this.props.index)
+        }
+
         handleDelete = () => {
                 this.props.delFunc(this.props.index);
         }
@@ -22,23 +26,23 @@ class CourseItem extends Component {
                         <div className="CourseItem">
                                 <div>
                                         <label>
-                                                {title}
+                                                { title }
                                         </label>
                                         <label>
-                                                {duration}
+                                                { duration }
                                         </label>
                                         <label>
-                                                {createDate}
+                                                { createDate }
                                         </label>
-                                        <button>
+                                        <button onClick={ this.handleUpdate }>
                                                 Редактировать
                                         </button>
                                 </div>
                                 <div>
                                         <label>
-                                                {listOfAuthors}
+                                                { listOfAuthors }
                                         </label>
-                                        <button onClick={this.handleDelete}>
+                                        <button onClick={ this.handleDelete }>
                                                 Удалить
                                         </button>
                                 </div>
@@ -52,9 +56,9 @@ CourseItem.propTypes = {
         duration : PropTypes.number.isRequired,
         createDate : PropTypes.string.isRequired,
         // listOfAuthors : PropTypes.array.isRequired
-        // editFunc : PropTypes.func.isRequired,
-        // deleteFunc : PropTypes.func.isRequired
-        // index : PropTypes.number.isRequired
+        editFunc : PropTypes.func.isRequired,
+        editFunc : PropTypes.func.isRequired,
+        index : PropTypes.number.isRequired
 }
 
 

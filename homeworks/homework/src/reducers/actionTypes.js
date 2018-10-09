@@ -5,6 +5,13 @@ export const createCourse = (payload) => {
         }
 }
 
+export const updateCourse = (payload) => {
+        return {
+                type : 'UPDATE_COURSE',
+                payload
+        }
+}
+
 export const deleteCourse = (payload) => {
         return {
                 type : 'DELETE_COURSE',

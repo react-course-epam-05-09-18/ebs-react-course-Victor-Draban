@@ -55,6 +55,10 @@ textarea {
     resize: none;
 }
 
+form {
+    margin-top: 50px;
+}
+
 label {
     width: 5%;
     text-align: left;

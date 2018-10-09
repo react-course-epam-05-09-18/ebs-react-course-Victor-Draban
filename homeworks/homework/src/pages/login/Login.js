@@ -38,9 +38,7 @@ class LoginPage extends Component {
     render() {
       return (
           <div className='login-form'>
-              { this.state.error ? (
-                <div style={{background : 'darkcyan'}}>Не верно введен логин или пароль</div>
-              ) : null }
+              { this.state.error && <div style={{background : 'darkcyan'}}>Не верно введен логин или пароль</div> }
               <form onSubmit={this.handleSubmit}>
                   <InputField inputType="text" labelValue="Логин" name="loginState" regExp="^[a-zA-Z]+$" valFunc={ this.handleChange } />
                   <InputField inputType="password" labelValue="Пароль" name="passwordState" regExp="^\w+$" valFunc={ this.handleChange }/>         

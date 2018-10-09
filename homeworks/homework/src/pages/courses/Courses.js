@@ -1,56 +1,63 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
 import { connect } from 'react-redux';
-import { createCourse, deleteCourse } from '../../reducers/actionTypes';
+import { COURSES_NEW, COURSES_ALL } from '../../constants/PathConstants';
+import { deleteCourse } from '../../reducers/actionTypes';
 
 //component
 import CourseItem from '../../components/course-item/CourseItem';
+import { SearchWithButton } from '../../components/search-field-with-button/SearchWithButton';
 
 //styles
 import "./Courses.css";
 
-const testValue = {
-  title: "new",
-  createDate: "new",
-  duration: 4567, 
-  listOfAuthors: "new new new"
-}
-
 class CoursesPage extends Component {
+
+  state = {
+    videocourses: this.props.videocourses
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.videocourses !== this.props.videocourses) {
+      this.setState( {videocourses: nextProps.videocourses} )
+    }
+  }
+
+  makeSearch = (event) => {
+    this.setState({
+      videocourses: this.props.videocourses.filter(item => item.title.startsWith(this.input.value))
+    })
+  }
 
   eachItem = (item, i) => {
     return <CourseItem key={i}
               title={item.title}
               createDate={item.createDate}
               duration={item.duration}
-              listOfAuthors={item.listOfAuthors}
+              listOfAuthors={item.listOfAuthors.join(' ')}
               index={i}
-              delFunc={ (returnValue) => this.props.deleteCourse(returnValue) }
+              editFunc={ (returnValue) =>
+                this.props.history.push(`${COURSES_ALL}/${returnValue}`)
+              }  
+              delFunc={ (returnValue) => 
+                this.props.deleteCourse(returnValue) 
+              }
               />
-  }
-
-  componentWillMount() {
-    let tmp = localStorage.getItem("loginName");
-    this.setState({ "userName" : tmp });
   }
 
   render() {
     const {
       videocourses,
-      createCourse,
-    } = this.props;
-    
+    } = this.state;
+
     return (
       <div className="Courses">
         <div className="lander">
-          <Button onClick={() => { createCourse(testValue) }}> Create New </Button>
-          <br />
-          <br />
-          <div className="">
-              <input type="text" placeholder='Фрагмент имени или дата' className='search-field'/>
-              <button className='search-button'>Найти</button>
-              <Link to="/courses/new" className='link-to'> Добавить курс </Link>
+          <div>
+              <SearchWithButton />
+              {/* <input type="text" placeholder='Фрагмент имени или дата' className='search-field' ref={node => (this.input = node) }/>
+              <button className='search-button' onClick={ this.makeSearch }>Найти</button> */}
+              <Link to={ COURSES_NEW } className='link-to'> Добавить курс </Link>
           </div>
           <div className='courses-container'>
             { videocourses.map(this.eachItem) }
@@ -68,7 +75,6 @@ const mapGlobalStoreStateToProps = (globalStorage) => {
 }
 
 const mapDispatchToProps = {
-  createCourse,
   deleteCourse
 }
 

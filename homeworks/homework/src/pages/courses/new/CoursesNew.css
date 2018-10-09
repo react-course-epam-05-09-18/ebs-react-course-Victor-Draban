@@ -1,39 +1,15 @@
-.equalHMVWrap {
-  flex-wrap: wrap;
-  display: flex;
-}
 
-.equalHMV {
-	width: 32%;
-}
-
-.complexDiv {
-  display: flex;
-  align-items: stretch;
-}
-
-.leftDiv {
-  width: 50%;
-  border: 1px solid black;
+/* .authorForm {
+  width: 19%;
+  border: 1.5px solid rgb(29, 6, 6);
+  border-radius: 5px;
+  margin: 2px;
   padding: 10px;
-}
-
-.middleDiv {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-}
-
-.rightDiv {
-  width: 50%;
-  border: 1px solid black;
-  padding: 10px;
-}
+  overflow: hidden;
+} */
 
 .link-to {
-  float: right;
+  float: none;
   margin: 8px;
   padding: 8px;
   background-color: white;

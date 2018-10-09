@@ -12,7 +12,7 @@ export default class RouteCourses extends Component {
         return (
             <Switch>
               <Route path = { `${COURSES_ALL}`} exact component={Courses} />
-              {/* <Route path = { `${COURSES_ALL}/:id`} component={CoursesNew} /> */}
+              <Route path = { `${COURSES_ALL}/:id`} component={CoursesNew} />
               <Route path = { `${COURSES_ALL}/new` } component={CoursesNew} />
             </Switch>
         );

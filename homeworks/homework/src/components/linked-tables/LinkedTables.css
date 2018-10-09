@@ -1,0 +1,34 @@
+.equalHMVWrap {
+        flex-wrap: wrap;
+        display: flex;
+}
+
+.equalHMV {
+        width: 32%;
+}
+
+.authorForm {
+        width: 19%;
+        border: 1.5px solid rgb(29, 6, 6);
+        border-radius: 5px;
+        margin: 2px;
+        padding: 10px;
+        overflow: hidden;
+}
+
+.bridge {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 5%;
+}
+
+img {
+        height: 30px;
+        width: 30px;
+}
+
+.textAlighCenter {
+        text-align: center;
+}
