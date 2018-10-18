@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "prop-types": "^15.6.2",
+    "ramda": "^0.25.0",
     "react": "^16.5.0",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.5.0",
@@ -15,6 +16,7 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.0",
     "redux-saga": "^0.16.0",
+    "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0"
   },
   "scripts": {

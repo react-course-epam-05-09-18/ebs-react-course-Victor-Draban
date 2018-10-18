@@ -3,6 +3,7 @@ import Route from "./router/Router";
 import { connect } from 'react-redux';
 import { saveLogin } from './reducers/actionTypes';
 import { LOGIN } from './constants/PathConstants';
+import { loginSelector } from './selectors/Selector';
 
 //components
 import { Header } from "./components/header/Header";
@@ -38,7 +39,7 @@ class AppComponent extends Component {
 
 const mapGlobalStoreStateToProps = (globalStore) => {
   return {
-    loginName : globalStore.loginReducer.login
+    loginName : loginSelector(globalStore)
   }
 }
 

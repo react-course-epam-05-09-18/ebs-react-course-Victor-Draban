@@ -11,7 +11,6 @@ export class InputWithLeftLabel extends Component {
         }
 
         render() {
-                // console.log(' render InputWithLeftLabel');
                 return (
                         <div className='equalHMVWrap'>
                                 <label className='equalHMV textAlighCenter'> { this.props.leftLabelText } </label>

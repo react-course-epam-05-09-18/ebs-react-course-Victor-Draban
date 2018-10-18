@@ -11,7 +11,6 @@ export class InputTextareaWithLeftLabel extends Component {
         }
 
         render() {
-                console.log('remder InputTextareaWithLeftLabel');
                 return (
                         <div className='equalHMVWrap'>
                                 <label className='equalHMV textAlighCenter'> { this.props.customText } </label>

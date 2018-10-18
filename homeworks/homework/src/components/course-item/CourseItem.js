@@ -7,11 +7,11 @@ import "./CourseItem.css";
 class CourseItem extends Component {
 
         handleUpdate = () => {
-                this.props.editFunc(this.props.index)
+                this.props.editFunc(this.props.content.id)
         }
 
         handleDelete = () => {
-                this.props.delFunc(this.props.index);
+                this.props.delFunc(this.props.content.id);
         }
 
         render() {
@@ -20,7 +20,7 @@ class CourseItem extends Component {
                         duration,
                         createDate,
                         listOfAuthors,
-                } = this.props;
+                } = this.props.content;
 
                 return (
                         <div className="CourseItem">
@@ -40,7 +40,7 @@ class CourseItem extends Component {
                                 </div>
                                 <div>
                                         <label>
-                                                { listOfAuthors }
+                                                { listOfAuthors.join(', ') }
                                         </label>
                                         <button onClick={ this.handleDelete }>
                                                 Удалить
@@ -52,13 +52,9 @@ class CourseItem extends Component {
 }
 
 CourseItem.propTypes = {
-        title : PropTypes.string.isRequired,
-        duration : PropTypes.number.isRequired,
-        createDate : PropTypes.string.isRequired,
-        // listOfAuthors : PropTypes.array.isRequired
+        content : PropTypes.object.isRequired,
         editFunc : PropTypes.func.isRequired,
         editFunc : PropTypes.func.isRequired,
-        index : PropTypes.number.isRequired
 }
 
 

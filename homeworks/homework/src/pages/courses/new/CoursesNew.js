@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
-import { createSelector } from 'reselect';
 import { COURSES_ALL } from '../../../constants/PathConstants';
 import { createCourse, updateCourse } from '../../../reducers/actionTypes';
+import { courseSelector, authorSelector } from '../../../selectors/Selector';
 
 //components
 import { InputWithLeftLabel } from '../../../components/input-text-with-left-label/InputWithLeftLabel';
@@ -25,16 +25,18 @@ class CoursesNewPage extends Component {
 
         componentWillMount() {
                 const id = this.props.match.params.id;
-                if (this.props.courses[id] === undefined && id !== 'new') {
+                let foundCourse = this.props.courses.find(item => item.id == id);
+                
+                if (foundCourse === undefined && id !== 'new') {
                         this.props.history.push(`${COURSES_ALL}`)
                 }
-                if (this.props.courses[id] != undefined) {
+                if (foundCourse != undefined) {
                         this.setState({
-                                course: this.props.courses[id],
+                                course: foundCourse,
                                 leftAuthorForm: this.props.authors.filter(item => {
-                                        return this.props.courses[id].listOfAuthors.indexOf(item) < 0;
+                                        return foundCourse.listOfAuthors.indexOf(item) < 0;
                                 }),
-                                rightAuthorForm: this.props.courses[id].listOfAuthors
+                                rightAuthorForm: foundCourse.listOfAuthors
                         })  
                 } else {
                         this.setState({
@@ -69,6 +71,7 @@ class CoursesNewPage extends Component {
 
                         if (this.props.match.params.id === 'new') {
                                 this.props.createCourse({
+                                        id: this.props.courses.length,
                                         title: this.state.course.title,
                                         description: this.state.course.description,
                                         createDate: this.state.course.createDate,
@@ -77,8 +80,9 @@ class CoursesNewPage extends Component {
                                 })
                         } else {
                                 this.props.updateCourse({
-                                       id: this.props.match.params.id,
+                                       id: this.state.course.id,
                                        content: {
+                                                id: this.state.course.id,
                                                 title: this.state.course.title,
                                                 description: this.state.course.description,
                                                 createDate: this.state.course.createDate,
@@ -128,9 +132,7 @@ class CoursesNewPage extends Component {
                         rightAuthorForm,
                         course
                 } = this.state;
-                
-                const items = testSelector(this.state);
-                
+
                 return (
                         <form onSubmit={this.handleSubmit}>
                                 <InputWithLeftLabel name='title' leftLabelText='Название' val={(course && course.title)} customPlaceholder='Text input' returnFunc={this.handleChange}/>
@@ -149,8 +151,8 @@ class CoursesNewPage extends Component {
 
 const mapGlobalStoreStateToProps = (globalStore) => {
         return {
-                authors : globalStore.authorReducer.autors,
-                courses: globalStore.reducerCourses.videocourses
+                authors : authorSelector(globalStore),
+                courses: courseSelector(globalStore)
         }
 }
 
@@ -160,9 +162,3 @@ const mapDispatchToProps = {
 }
 
 export const CoursesNew = connect(mapGlobalStoreStateToProps, mapDispatchToProps)(CoursesNewPage);
-
-const testSelector = createSelector(
-        (state) => state.leftAuthorForm,
-        (state) => state.rightAuthorForm,
-        (leftAuthorForm, rightAuthorForm) => this.leftHandler
-)

@@ -14,7 +14,6 @@ export class LinkedTables extends Component {
         }
 
         render() {
-                console.log('remder LinkedTables');
                 return (
                         <div className="equalHMVWrap">
                                 <label className='equalHMV textAlighCenter'> Список авторов </label>
